@@ -1,59 +1,39 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
-import axios from "axios";
-import { useEffect } from "react";
-const base_url = import.meta.env.VITE_API_URL;
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState = {
     token: localStorage.getItem("token") || "",
-    userid: localStorage.getItem("userid") || "",
+    userId: localStorage.getItem("userId") || "",
 };
 
-const userAuth = async () => {
-    try {
-        const response = await axios.get(base_url + 'user/' + initialUserId, {
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        });
-        if (response.status == 200) {
-            console.log(response.data)
-            console.log("correct data")
-
-        } else {
-            console.log("folse data")
-        }
-    } catch (error) {
-        console.log(error)
-    }
-};
-useEffect(() => {
-    if (initialState && initialUserId) {
-        userAuth();
-    }
-}, []);
-
-export const saveSlice = createSlice({
-    name: 'saveInLocalStroge',
+const authSlice = createSlice({
+    name: "auth",
     initialState,
     reducers: {
         add: (state, action) => {
-            // state.token = action.payload.token;
-            // state.userid = action.payload.userid;
-            console.log(action.payload.token);
-            console.log(action.payload.userid);
-            localStorage.setItem("token", action.payload.token)
-            localStorage.setItem("userid", action.payload.userid)
+            state.token = action.payload.token;
+            state.userId = action.payload.userid;
+            localStorage.setItem("token", action.payload.token);
+            localStorage.setItem("userId", action.payload.userId);
         },
         clean: (state) => {
-            console.log(state.token);
-            state.token = ""
+            state.token = "";
+            state.userId = "";
             localStorage.removeItem("token");
-        }
+            localStorage.removeItem("userId");
+        },
+        checkAndClean: (state) => {
+            const token = localStorage.getItem("token");
+            const userId = localStorage.getItem("userId");
+            if (!token || !userId) {
+                state.token = "";
+                state.userId = "";
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+            }
+        },
 
-
-    }
+    },
 });
 
-export const { add, clean } = saveSlice.actions
-
-export default saveSlice.reducer
+export const { add, clean, checkAndClean } = authSlice.actions;
+export default authSlice.reducer;

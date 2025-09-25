@@ -1,0 +1,35 @@
+body {
+    background-color: #e7e7e7;
+}
+
+
+
+.navbar-section nav {
+    padding: 0;
+}
+
+.navbar-section .container {
+    background-color: #fff;
+    border: 2px solid #000;
+    padding: 30px 30px;
+    border-radius: 0px 0px 20px 20px;
+}
+
+.navbar-section .logo {
+    max-width: 250px;
+}
+
+.navbar-section .nav-link {
+    font-size: 24px;
+    margin: 0 15px;
+    font-weight: 600;
+}
+
+
+
+
+.card-section .row {
+    border: 2px solid #000;
+    border-radius: 20px;
+    overflow: hidden;
+}

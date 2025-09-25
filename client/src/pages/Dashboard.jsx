@@ -1,8 +1,11 @@
 import React from 'react'
+import HomePosts from '../components/HomePosts'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <>
+      <HomePosts></HomePosts>
+    </>
   )
 }
 

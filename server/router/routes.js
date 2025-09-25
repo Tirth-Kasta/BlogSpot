@@ -10,14 +10,14 @@ routes.get("/", authMiddleware, (req, res) => { res.status(200).send("Hello Worl
 //auth API
 routes.post("/login", authControllers.login)
 routes.post("/register", authControllers.register)
-
+routes.get("/user/:id", authMiddleware, authControllers.user)
 
 //blog API
-routes.get("/blog",authMiddleware, blogControllers.getAllBlogs)
-routes.get("/blog/:title",authMiddleware, blogControllers.getBlogByTitle)
-routes.post("/blog",authMiddleware, blogControllers.postBlog)
-routes.put("/blog/:id",authMiddleware, blogControllers.editBlog)
-routes.delete("/blog/:id",authMiddleware, blogControllers.deleteBlog)
+routes.get("/blog", authMiddleware, blogControllers.getAllBlogs)
+routes.get("/blog/:title", authMiddleware, blogControllers.getBlogByTitle)
+routes.post("/blog", authMiddleware, blogControllers.postBlog)
+routes.put("/blog/:id", authMiddleware, blogControllers.editBlog)
+routes.delete("/blog/:id", authMiddleware, blogControllers.deleteBlog)
 
 
 module.exports = routes;

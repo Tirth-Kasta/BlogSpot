@@ -12,16 +12,16 @@ const login = async (req, res) => {
             const isPassword = await bcrypt.compare(password, userExist.password);
             if (isPassword) {
                 const createToken = () => {
-                return jwt.sign({
-                    userId: userExist._id.toString(),
-                    email: userExist.email,
-                    name: userExist.name,
-                    isAdmin: userExist.isAdmin
-                },
-                    jwt_token,
-                    { expiresIn: "1d" }
-                )
-            }
+                    return jwt.sign({
+                        userId: userExist._id.toString(),
+                        email: userExist.email,
+                        name: userExist.name,
+                        isAdmin: userExist.isAdmin
+                    },
+                        jwt_token,
+                        { expiresIn: "1d" }
+                    )
+                }
                 res.status(200).json({ message: "loged in", userId: userExist._id.toString(), token: createToken() })
             }
             else {
@@ -66,5 +66,22 @@ const register = async (req, res) => {
     }
 }
 
+const user = async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(id);
+        const token = req.header("Authorization");
+        const userData = await User.findById(id,{password: 0});
+        if (userData) {
+            res.status(200).json(userData,token)
+        }
+        else {
+            res.status(404).json({ message: "user not found" })
+        }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
 
-module.exports = { register, login };
+
+module.exports = { register, login ,user};

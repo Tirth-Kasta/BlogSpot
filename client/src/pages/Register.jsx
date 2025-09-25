@@ -1,17 +1,29 @@
 import axios from 'axios';
+
+import { useDispatch} from 'react-redux';
+import { add} from '../store/auth.slice'
+
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form"
+import { useNavigate } from 'react-router-dom';
+
 const base_url = import.meta.env.VITE_API_URL;
+import '../assets/css/login.css'
 
 
 const Register = () => {
-    const {register,handleSubmit,watch,formState: { errors, isSubmitting }} = useForm()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm()
 
     const onSubmit = async (data) => {
         try {
             const res = await axios.post(base_url + 'register', data)
             if (res.status == 200) {
                 console.log(res.data);
+                dispatch(add({ token: res.data.token, userId: res.data.userId }));
+                navigate("/dashboard")
             }
         } catch (error) {
             console.log(error)
